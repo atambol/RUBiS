@@ -1,14 +1,15 @@
 import os
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--php_host', '-p', help='PHP server host', default="localhost")
+parser.add_argument('--db_host', '-d', help='Database server host', default="localhost")
+args = parser.parse_args()
+
 current_path = os.path.dirname(os.path.realpath(__file__))
 parrent_path = os.path.abspath(os.path.join(current_path, os.pardir))
-
-phpHost = raw_input("PHP server host [localhost]: ")
-if phpHost == '':
-    phpHost = "localhost"
-
-dbHost = raw_input("Database server host [localhost]: ")
-if dbHost == '':
-    dbHost = "localhost"
+phpHost = args.php_host
+dbHost = args.db_host
 
 properties = """# HTTP server information
 httpd_hostname = {0}
