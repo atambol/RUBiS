@@ -1,7 +1,7 @@
 <?php
 
 function getDatabaseLink(&$link) {
-    $link = mysqli_pconnect("localhost", "root", "batata83") or die("ERROR: Could not connect to database");
+    $link = mysqli_pconnect("172.25.130.7", "root", "") or die("ERROR: Could not connect to database");
     mysql_select_db("rubis", $link) or die("ERROR: Couldn't select RUBiS database");
 }
 

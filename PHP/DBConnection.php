@@ -2,7 +2,7 @@
 
 class DBConnection {
 
-    protected $host = "localhost";
+    protected $host = "172.25.130.7";
     protected $host_type = "mysql";
     protected $username = "root";
     protected $password = "";
