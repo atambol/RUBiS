@@ -197,8 +197,8 @@ public class ClientEmulator
         System.out.println("Redirecting output to '"+reportDir+"index.html'");
         PrintStream outputStream = new PrintStream(new FileOutputStream(reportDir+"index.html"));
         System.out.println("Please wait while experiment is running ...");
-        System.setOut(outputStream);
-        System.setErr(outputStream);
+        //System.setOut(outputStream);
+        //System.setErr(outputStream);
       }
       catch (Exception e)
       {
@@ -287,8 +287,8 @@ public class ClientEmulator
       try
       {
         PrintStream outputStream = new PrintStream(new FileOutputStream(reportDir+"trace_client0.html"));
-        System.setOut(outputStream);
-        System.setErr(outputStream);
+        //System.setOut(outputStream);
+        //System.setErr(outputStream);
       }
       catch (FileNotFoundException fnf)
       {

@@ -5,7 +5,7 @@ include ../config.mk
 ####################
 
 ClientFiles = URLGenerator URLGeneratorEJB URLGeneratorServlets URLGeneratorPHP RUBiSProperties Stats \
-	      TransitionTable ClientEmulator UserSession InitDB InitDBSQL ../beans/TimeManagement
+	      TransitionTable ClientEmulator UserSession InitDB InitDBSQL ../beans/TimeManagement App
 
 all_client_sources =  $(addprefix edu/rice/rubis/client/, $(addsuffix .java, $(ClientFiles)))
 all_client_obj = $(addprefix edu/rice/rubis/client/, $(addsuffix .class, $(ClientFiles)))
@@ -19,10 +19,10 @@ initDB:
 	${JAVA} -classpath .:./database edu.rice.rubis.client.InitDB ${PARAM}
 
 initDBSQL:
-	${JAVA} -classpath .:mysql-connector-java-6.0.6.jar:./database edu.rice.rubis.client.InitDBSQL ${PARAM}
+	${JAVA} -classpath .:./kafka-clients-1.0.0.jar:./slf4j-api-1.6.6.jar:mysql-connector-java-6.0.6.jar:./database edu.rice.rubis.client.InitDBSQL ${PARAM}
 
 emulator:
-	${JAVA} -classpath . edu.rice.rubis.client.ClientEmulator
+	${JAVA} -classpath .:./kafka-clients-1.0.0.jar:./slf4j-api-1.6.6.jar edu.rice.rubis.client.ClientEmulator
 
 javadoc :
 	${MKDIR} -p doc

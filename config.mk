@@ -10,7 +10,7 @@ JAVACOPTS =
 JAVACC = $(JAVAC) $(JAVACOPTS)
 RMIC = rmic
 RMIREGISTRY= rmiregistry
-CLASSPATH = .:$(J2EE_HOME)/lib/j2ee.jar:$(JAVA_HOME)/jre/lib/rt.jar:/cluster/opt/jakarta-tomcat-3.2.3/lib/servlet.jar:$(PWD)
+CLASSPATH = .:./kafka-clients-1.0.0.jar:./slf4j-api-1.6.6.jar:$(J2EE_HOME)/lib/j2ee.jar:$(JAVA_HOME)/jre/lib/rt.jar:/cluster/opt/jakarta-tomcat-3.2.3/lib/servlet.jar:$(PWD)
 JAVADOC = javadoc
 JAR = jar
 

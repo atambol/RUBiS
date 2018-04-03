@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.Vector;
+import org.apache.kafka.clients.producer.*;
+import org.apache.kafka.common.serialization.LongSerializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+import java.util.Properties;
 
 /**
  * RUBiS user session emulator. 
@@ -29,6 +33,7 @@ public class UserSession extends Thread
   private Stats           stats;                // Statistics to collect errors, time, ...
   private int             debugLevel = 0;       // 0 = no debug message, 1 = just error messages, 2 = error messages+HTML pages, 3 = everything!
  
+  
   /**
    * Creates a new <code>UserSession</code> instance.
    * @param threadId a thread identifier
@@ -559,6 +564,9 @@ public class UserSession extends Thread
     long time=0;
     long startSession=0;
     long endSession=0;
+	
+	App app = new App();	
+	Producer<String, String> producer = app.createProducer();
 
     while (!ClientEmulator.isEndOfSimulation())
     {
@@ -579,8 +587,10 @@ public class UserSession extends Thread
         lastURL = computeURLFromState(next);
         time = System.currentTimeMillis();
         lastHTMLReply = callHTTPServer(lastURL);
-        stats.updateTime(next, System.currentTimeMillis() - time);
-
+		
+		long timeTaken = System.currentTimeMillis() - time;
+        stats.updateTime(next, timeTaken);
+		
         // If an error occured, reset to Home page
         if (lastHTMLReply.indexOf("ERROR") != -1)
         {
@@ -593,7 +603,18 @@ public class UserSession extends Thread
           next = transition.getCurrentState();
         }
         else
-          next = transition.nextState();
+		{
+			next = transition.nextState();
+			try{
+				
+				app.runProducer(producer, "0", String.valueOf(timeTaken)+","+String.valueOf(System.currentTimeMillis()/1000));
+				System.out.println("Thread "+this.getName());
+				
+			}catch(Exception e){
+				System.out.println("Kafka Error!");
+				e.printStackTrace();
+			}
+		}
         nbOfTransitions--;
       }
       if ((transition.isEndOfSession()) || (nbOfTransitions == 0))
@@ -610,6 +631,8 @@ public class UserSession extends Thread
           System.out.println("Thread "+this.getName()+": Session of "+username+" aborted<br>");
       }
     }
+	
+	producer.close();
   }
 
 }
