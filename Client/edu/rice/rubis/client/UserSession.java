@@ -588,9 +588,12 @@ public class UserSession extends Thread
         time = System.currentTimeMillis();
         lastHTMLReply = callHTTPServer(lastURL);
 		
-		long timeTaken = System.currentTimeMillis() - time;
+	long timeTaken = System.currentTimeMillis() - time;
         stats.updateTime(next, timeTaken);
-		
+	
+	if (debugLevel > 1)
+		System.out.println("Last URL: "+lastURL + "Error?: "+lastHTMLReply.indexOf("ERROR")!=-1);
+			
         // If an error occured, reset to Home page
         if (lastHTMLReply.indexOf("ERROR") != -1)
         {
