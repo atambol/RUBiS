@@ -32,8 +32,8 @@ public class UserSession extends Thread
   private int             lastUserId = -1;      // This is to deal with back because the itemId cannot be retrieved from the current page
   private Stats           stats;                // Statistics to collect errors, time, ...
   private int             debugLevel = 0;       // 0 = no debug message, 1 = just error messages, 2 = error messages+HTML pages, 3 = everything!
- 
-  
+  public int cnt =0;
+  public long ttl =0;
   /**
    * Creates a new <code>UserSession</code> instance.
    * @param threadId a thread identifier
@@ -57,7 +57,7 @@ public class UserSession extends Thread
 
   /**
    * Call the HTTP Server according to the given URL and get the reply
-   *
+   *i
    * @param url URL to access
    * @return <code>String</code> containing the web server reply (HTML file)
    */
@@ -564,7 +564,7 @@ public class UserSession extends Thread
     long time=0;
     long startSession=0;
     long endSession=0;
-	
+//   debugLevel = 0;	
 	App app = new App();	
 	Producer<String, String> producer = app.createProducer();
 
@@ -591,8 +591,11 @@ public class UserSession extends Thread
 	long timeTaken = System.currentTimeMillis() - time;
         stats.updateTime(next, timeTaken);
 	
-	if (debugLevel > 1)
-		System.out.println("Last URL: "+lastURL + "Error?: "+lastHTMLReply.indexOf("ERROR")!=-1);
+	if (debugLevel > 1){
+		System.out.println("Time Taken: "+ String.valueOf(timeTaken) +" Last URL: "+lastURL + "Error?: "+(lastHTMLReply.indexOf("ERROR")!=-1));
+		ttl += timeTaken;
+		cnt += 1; 
+	}
 			
         // If an error occured, reset to Home page
         if (lastHTMLReply.indexOf("ERROR") != -1)
@@ -612,6 +615,7 @@ public class UserSession extends Thread
 				
 				app.runProducer(producer, "0", String.valueOf(timeTaken)+","+String.valueOf(System.currentTimeMillis()/1000));
 				System.out.println("Thread "+this.getName());
+				System.out.println("Thread "+this.getName()+", average response time: "+ (ttl/cnt));
 				
 			}catch(Exception e){
 				System.out.println("Kafka Error!");
@@ -620,6 +624,8 @@ public class UserSession extends Thread
 		}
         nbOfTransitions--;
       }
+
+	
       if ((transition.isEndOfSession()) || (nbOfTransitions == 0))
       {
         if (debugLevel > 2)
@@ -633,6 +639,8 @@ public class UserSession extends Thread
         if (debugLevel > 2)
           System.out.println("Thread "+this.getName()+": Session of "+username+" aborted<br>");
       }
+	if(cnt!=0)
+		System.out.println("Thread "+this.getName()+", average response time: "+ (ttl/cnt));
     }
 	
 	producer.close();
