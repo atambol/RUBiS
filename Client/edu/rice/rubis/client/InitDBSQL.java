@@ -145,6 +145,9 @@ public class InitDBSQL {
                 ps.setString(5, email);
                 ps.setInt(6, regionNameId);
                 ps.addBatch();
+                
+                if(i%10000==0)
+                    c.setAutoCommit(true);
             }
             ps.executeBatch();
             c.setAutoCommit(true);
