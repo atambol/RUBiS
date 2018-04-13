@@ -565,8 +565,8 @@ public class UserSession extends Thread
     long startSession=0;
     long endSession=0;
 //   debugLevel = 0;	
-	App app = new App();	
-	Producer<String, String> producer = app.createProducer();
+	//App app = new App();	
+	//Producer<String, String> producer = app.createProducer();
 
     while (!ClientEmulator.isEndOfSimulation())
     {
@@ -613,8 +613,8 @@ public class UserSession extends Thread
 			next = transition.nextState();
 			try{
 				
-				app.runProducer(producer, "0", String.valueOf(timeTaken)+","+String.valueOf(System.currentTimeMillis()/1000));
-				System.out.println("Thread "+this.getName());
+				//app.runProducer(producer, "0", String.valueOf(timeTaken)+","+String.valueOf(System.currentTimeMillis()/1000));
+				//System.out.println("Thread "+this.getName());
 				System.out.println("Thread "+this.getName()+", average response time: "+ (ttl/cnt));
 				
 			}catch(Exception e){
