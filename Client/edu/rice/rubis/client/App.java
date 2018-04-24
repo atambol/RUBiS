@@ -32,7 +32,7 @@ public class App
                 RecordMetadata metadata = producer.send(record).get();
 				
                // System.out.printf("sent record(key=%s value=%s) ",
-                        record.key(), record.value());
+                        //record.key(), record.value());
             
 			} 
 			finally {
