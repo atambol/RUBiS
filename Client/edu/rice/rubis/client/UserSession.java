@@ -614,9 +614,10 @@ public class UserSession extends Thread
 			try{
 				
 				app.runProducer(producer, "0", String.valueOf(timeTaken)+","+String.valueOf(System.currentTimeMillis()/1000));
-				System.out.println("Thread "+this.getName());
-				System.out.println("Thread "+this.getName()+", average response time: "+ (ttl/cnt));
-				
+				if (debugLevel > 0){
+					System.out.println("Thread "+this.getName());
+					System.out.println("Thread "+this.getName()+", average response time: "+ (ttl/cnt));
+				}
 			}catch(Exception e){
 				System.out.println("Kafka Error!");
 				e.printStackTrace();
