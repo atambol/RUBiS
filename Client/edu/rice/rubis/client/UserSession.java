@@ -643,7 +643,7 @@ public class UserSession extends Thread
 		System.out.println("Thread "+this.getName()+", average response time: "+ (ttl/cnt));
     }
 	
-	//producer.close();
+	producer.close();
   }
 
 }
